@@ -53,8 +53,12 @@ function adminOnly(req,res,next){
   const key=process.env.ADMIN_KEY;
   if(!key) return res.status(503).json({error:'Admin access is not configured. Set ADMIN_KEY on the server.'});
   const supplied=req.get('x-admin-key') || '';
-  if(!crypto.timingSafeEqual(Buffer.from(supplied),Buffer.from(key))) return res.status(401).json({error:'Invalid admin key.'});
-  next();
+if (
+  Buffer.byteLength(supplied) !== Buffer.byteLength(key) ||
+  !crypto.timingSafeEqual(Buffer.from(supplied), Buffer.from(key))
+) {
+  return res.status(401).json({ error: 'Invalid admin key.' });
+}  next();
 }
 app.get('/api/admin/bookings',adminOnly,(req,res)=>{
   const rows=db.prepare('SELECT reference,kind,name,email,phone,service,date,time,details,status,created_at FROM bookings ORDER BY created_at DESC LIMIT 250').all();
