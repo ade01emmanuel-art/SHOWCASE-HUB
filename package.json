@@ -1,0 +1,10 @@
+{
+  "name": "showcase-hub-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SHOWCASE HUB portfolio website with consultation and project booking requests",
+  "main": "server.js",
+  "scripts": {"start": "node server.js"},
+  "engines": {"node": ">=18"},
+  "dependencies": {"better-sqlite3": "^11.7.0", "express": "^4.21.2"}
+}
